@@ -1,0 +1,82 @@
+# Ignore files for the build results
+build/
+.dart_tool/
+
+# Ignore Android build directories
+android/.gradle
+android/captures/
+android/.gradle/
+android/gradle-wrapper.jar
+android/.idea/
+android/local.properties
+
+# Ignore iOS build directories
+ios/.symlinks/
+ios/.generated/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Flutter.xcframework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+ios/Flutter/flutter_export_environment.sh
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+ios/.dart_tool/
+
+# Ignore dependency directories
+pubspec.lock
+
+# Ignore IDE configurations
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+*.sublime-*
+
+# Ignore OS specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore any Firebase config files with credentials
+google-services.json
+GoogleService-Info.plist
+# firebase_options.dart contains constant values; keep it under version control and replace placeholders manually
+
+# Ignore coverage reports
+coverage/
+
+# Ignore analysis files
+analysis_options.yaml
+
+# Ignore Flutter/Dart/Pub specific files
+*.packages
+*.pub_cache/
+*.lock
+
+# Ignore IDE
+.IntelliJIdea*
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Ignore emulator files
+*.apk
+*.apa
+*.appbundle
+*.iap
+*.mobileprovision
+*.orig.*
+*.jks
+*.keystore

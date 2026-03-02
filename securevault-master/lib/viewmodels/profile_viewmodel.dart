@@ -40,7 +40,8 @@ class ProfileViewModel extends ChangeNotifier {
 
   /// Update display name and refresh UI
   Future<bool> updateDisplayName(String displayName) async {
-    if (displayName.isEmpty) {
+    final trimmedName = displayName.trim();
+    if (trimmedName.isEmpty) {
       _errorMessage = 'Display name cannot be empty';
       notifyListeners();
       return false;
@@ -52,12 +53,12 @@ class ProfileViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _authService.updateDisplayName(displayName);
+      await _authService.updateDisplayName(trimmedName);
       await _authService.refreshUser();
 
       // Update local user model
       _user = _user?.copyWith(
-        displayName: displayName,
+        displayName: trimmedName,
         lastUpdated: DateTime.now(),
       );
 

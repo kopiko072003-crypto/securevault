@@ -72,11 +72,9 @@ class Validators {
 
   /// Validate display name
   static String? validateDisplayName(String? displayName) {
-    if (displayName == null || displayName.isEmpty) {
+    final trimmed = displayName?.trim() ?? '';
+    if (trimmed.isEmpty) {
       return 'Display Name cannot be empty';
-    }
-    if (displayName.length < 2) {
-      return 'Display Name must be at least 2 characters';
     }
     return null;
   }

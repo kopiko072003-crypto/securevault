@@ -108,6 +108,29 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
+  /// Sign in with Facebook
+  Future<bool> signInWithFacebook() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final userModel = await _authService.signInWithFacebook();
+
+      _currentUser = userModel;
+      _isAuthenticated = true;
+      _isLoading = false;
+      notifyListeners();
+
+      return true;
+    } catch (e) {
+      _errorMessage = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
   /// Biometric login - authenticate and check if enabled
   ///
   /// When biometric login succeeds we also attempt to restore the
@@ -140,7 +163,7 @@ class AuthViewModel extends ChangeNotifier {
           _currentUser = UserModel.fromJson(data);
         } catch (e) {
           // if parsing fails we still mark authenticated but leave user null
-          print('Failed to parse cached user data: $e');
+          debugPrint('Failed to parse cached user data: $e');
         }
       }
 
@@ -184,6 +207,9 @@ class AuthViewModel extends ChangeNotifier {
   /// If there is no Firebase user but biometric login is enabled we
   /// try to authenticate with biometrics automatically.
   Future<void> checkAuthStatus() async {
+    _isLoading = true;
+    notifyListeners();
+
     try {
       final user = _authService.currentUser;
       if (user != null) {
@@ -209,10 +235,11 @@ class AuthViewModel extends ChangeNotifier {
           _isAuthenticated = false;
         }
       }
-      notifyListeners();
     } catch (e) {
       print('Error checking auth status: $e');
       _isAuthenticated = false;
+    } finally {
+      _isLoading = false;
       notifyListeners();
     }
   }

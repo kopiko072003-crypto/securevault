@@ -54,14 +54,32 @@ class UserModel {
 
   /// Create UserModel from JSON
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    DateTime parseDateTime(dynamic value, DateTime fallback) {
+      if (value == null) return fallback;
+      try {
+        return DateTime.parse(value.toString());
+      } catch (_) {
+        return fallback;
+      }
+    }
+
+    DateTime? parseDateTimeOrNull(dynamic value) {
+      if (value == null) return null;
+      try {
+        return DateTime.parse(value.toString());
+      } catch (_) {
+        return null;
+      }
+    }
+
     return UserModel(
       uid: json['uid'] ?? '',
       email: json['email'] ?? '',
       displayName: json['displayName'] ?? '',
       photoUrl: json['photoUrl'],
       isBiometricEnabled: json['isBiometricEnabled'] ?? false,
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
-      lastUpdated: json['lastUpdated'] != null ? DateTime.parse(json['lastUpdated']) : null,
+      createdAt: parseDateTime(json['createdAt'], DateTime.now()),
+      lastUpdated: parseDateTimeOrNull(json['lastUpdated']),
     );
   }
 }

@@ -107,7 +107,7 @@ class _ProfileViewState extends State<ProfileView> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey[300]!),
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -162,7 +162,7 @@ class _ProfileViewState extends State<ProfileView> {
                     padding: const EdgeInsets.all(12),
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: AppConstants.successColor.withOpacity(0.1),
+                      color: AppConstants.successColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: AppConstants.successColor,
@@ -199,7 +199,7 @@ class _ProfileViewState extends State<ProfileView> {
                     padding: const EdgeInsets.all(12),
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: AppConstants.errorColor.withOpacity(0.1),
+                      color: AppConstants.errorColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: AppConstants.errorColor,
@@ -250,7 +250,7 @@ class _ProfileViewState extends State<ProfileView> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey[300]!),
+                          border: Border.all(color: Colors.grey.shade300),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,7 +309,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 backgroundColor: AppConstants.primaryColor,
                                 isLoading: profileViewModel.isLoading,
                                 onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState?.validate() ?? false) {
                                     await profileViewModel.updateDisplayName(
                                       _displayNameController.text.trim(),
                                     );
@@ -358,7 +358,7 @@ class _ProfileViewState extends State<ProfileView> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.grey[100],
+                    color: Colors.grey.shade100,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(

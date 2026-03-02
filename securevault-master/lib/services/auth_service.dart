@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../models/user_model.dart';
 import 'storage_service.dart';
@@ -16,6 +20,7 @@ class AuthService {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+  final FacebookAuth _facebookAuth = FacebookAuth.instance;
   final StorageService _storageService = StorageService();
 
   /// Initialize Google Sign-In if needed.
@@ -36,7 +41,7 @@ class AuthService {
       );
     } catch (e) {
       // just log but don't fail application startup
-      print('Google Sign-In initialization warning: $e');
+      debugPrint('Google Sign-In initialization warning: $e');
     }
   }
 
@@ -80,7 +85,7 @@ class AuthService {
       );
 
       // Save user data
-      await _storageService.saveUserData(userModel.toJson().toString());
+      await _storageService.saveUserData(jsonEncode(userModel.toJson()));
 
       return userModel;
     } on FirebaseAuthException catch (e) {
@@ -121,7 +126,7 @@ class AuthService {
       );
 
       // Save user data
-      await _storageService.saveUserData(userModel.toJson().toString());
+      await _storageService.saveUserData(jsonEncode(userModel.toJson()));
 
       return userModel;
     } on FirebaseAuthException catch (e) {
@@ -175,7 +180,7 @@ class AuthService {
         lastUpdated: DateTime.now(),
       );
 
-      await _storageService.saveUserData(userModel.toJson().toString());
+      await _storageService.saveUserData(jsonEncode(userModel.toJson()));
       return userModel;
     } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);
@@ -185,10 +190,68 @@ class AuthService {
     }
   }
 
+  /// Sign in with Facebook using Firebase auth
+  /// Returns UserModel on success, throws exception on failure
+  Future<UserModel> signInWithFacebook() async {
+    try {
+      final LoginResult result = await _facebookAuth.login(
+        permissions: const ['email', 'public_profile'],
+      );
+
+      if (result.status != LoginStatus.success) {
+        if (result.status == LoginStatus.cancelled) {
+          throw 'Facebook login cancelled by user';
+        }
+        throw 'Facebook login failed: ${result.message ?? 'Unknown error'}';
+      }
+
+      final accessToken = result.accessToken;
+      if (accessToken == null) {
+        throw 'Facebook access token is null';
+      }
+
+      final credential = FacebookAuthProvider.credential(
+        accessToken.tokenString,
+      );
+
+      final userCredential =
+          await _firebaseAuth.signInWithCredential(credential);
+      final user = userCredential.user!;
+
+      // Save auth token securely
+      final token = await user.getIdToken();
+      if (token != null) {
+        await _storageService.saveAuthToken(token);
+      }
+
+      final userModel = UserModel(
+        uid: user.uid,
+        email: user.email ?? '',
+        displayName: user.displayName ?? '',
+        photoUrl: user.photoURL,
+        createdAt: user.metadata.creationTime ?? DateTime.now(),
+        lastUpdated: DateTime.now(),
+      );
+
+      await _storageService.saveUserData(jsonEncode(userModel.toJson()));
+      return userModel;
+    } on FirebaseAuthException catch (e) {
+      throw _handleAuthException(e);
+    } catch (e) {
+      throw 'Facebook Sign-In failed: ${e.toString()}';
+    }
+  }
+
   /// Logout user and clear stored credentials
   Future<void> logout() async {
     try {
       await _googleSignIn.signOut();
+       // best-effort Facebook logout (ignore failures)
+      try {
+        await _facebookAuth.logOut();
+      } catch (e) {
+        debugPrint('Facebook logout warning: $e');
+      }
       await _firebaseAuth.signOut();
       await _storageService.clearAll();
     } catch (e) {

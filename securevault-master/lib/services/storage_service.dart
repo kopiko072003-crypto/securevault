@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../utils/constants.dart';
 
@@ -26,7 +27,7 @@ class StorageService {
         value: token,
       );
     } catch (e) {
-      print('Error saving auth token: $e');
+      debugPrint('Error saving auth token: $e');
       rethrow;
     }
   }
@@ -38,7 +39,7 @@ class StorageService {
         key: AppConstants.storageKeyAuthToken,
       );
     } catch (e) {
-      print('Error retrieving auth token: $e');
+      debugPrint('Error retrieving auth token: $e');
       return null;
     }
   }
@@ -51,7 +52,7 @@ class StorageService {
         value: token,
       );
     } catch (e) {
-      print('Error saving refresh token: $e');
+      debugPrint('Error saving refresh token: $e');
       rethrow;
     }
   }
@@ -63,7 +64,7 @@ class StorageService {
         key: AppConstants.storageKeyRefreshToken,
       );
     } catch (e) {
-      print('Error retrieving refresh token: $e');
+      debugPrint('Error retrieving refresh token: $e');
       return null;
     }
   }
@@ -76,7 +77,7 @@ class StorageService {
         value: userDataJson,
       );
     } catch (e) {
-      print('Error saving user data: $e');
+      debugPrint('Error saving user data: $e');
       rethrow;
     }
   }
@@ -88,7 +89,7 @@ class StorageService {
         key: AppConstants.storageKeyUserData,
       );
     } catch (e) {
-      print('Error retrieving user data: $e');
+      debugPrint('Error retrieving user data: $e');
       return null;
     }
   }
@@ -101,7 +102,7 @@ class StorageService {
         value: enabled.toString(),
       );
     } catch (e) {
-      print('Error saving biometric enabled flag: $e');
+      debugPrint('Error saving biometric enabled flag: $e');
       rethrow;
     }
   }
@@ -114,7 +115,7 @@ class StorageService {
       );
       return value == 'true';
     } catch (e) {
-      print('Error retrieving biometric enabled flag: $e');
+      debugPrint('Error retrieving biometric enabled flag: $e');
       return false;
     }
   }
@@ -124,7 +125,7 @@ class StorageService {
     try {
       await _secureStorage.deleteAll();
     } catch (e) {
-      print('Error clearing storage: $e');
+      debugPrint('Error clearing storage: $e');
       rethrow;
     }
   }
@@ -134,7 +135,7 @@ class StorageService {
     try {
       await _secureStorage.delete(key: key);
     } catch (e) {
-      print('Error deleting key: $e');
+      debugPrint('Error deleting key: $e');
       rethrow;
     }
   }

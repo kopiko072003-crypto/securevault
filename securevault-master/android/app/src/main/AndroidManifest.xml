@@ -5,10 +5,23 @@
     <!-- network permission required for Firebase, Google Sign‑In, etc. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- required for local_auth biometric (fingerprint, face) -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!-- for Android 6–8 fingerprint support (deprecated on API 28+) -->
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
     <application
         android:label="securevault"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- Facebook SDK configuration (values in res/values/strings.xml) -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
 
         <!-- Disable Firebase auto initialization -->
         <meta-data

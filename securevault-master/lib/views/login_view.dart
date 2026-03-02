@@ -122,7 +122,7 @@ class _LoginViewState extends State<LoginView> {
                           padding: const EdgeInsets.all(12),
                           margin: const EdgeInsets.only(bottom: 16),
                           decoration: BoxDecoration(
-                            color: AppConstants.errorColor.withOpacity(0.1),
+                            color: AppConstants.errorColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: AppConstants.errorColor,
@@ -152,7 +152,7 @@ class _LoginViewState extends State<LoginView> {
                         label: AppConstants.labelLogin,
                         isLoading: authViewModel.isLoading,
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState?.validate() ?? false) {
                             final success = await authViewModel.login(
                               email: _emailController.text.trim(),
                               password: _passwordController.text,
@@ -203,7 +203,7 @@ class _LoginViewState extends State<LoginView> {
                   children: [
                     Expanded(
                       child: Divider(
-                        color: Colors.grey[400],
+                        color: Colors.grey.shade400,
                         thickness: 1,
                       ),
                     ),
@@ -219,7 +219,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     Expanded(
                       child: Divider(
-                        color: Colors.grey[400],
+                        color: Colors.grey.shade400,
                         thickness: 1,
                       ),
                     ),
@@ -232,7 +232,7 @@ class _LoginViewState extends State<LoginView> {
                   label: AppConstants.labelSignInWithGoogle,
                   backgroundColor: Colors.white,
                   textColor: AppConstants.textPrimary,
-                  icon: Icons.login,
+                  icon: Icons.g_mobiledata,
                   isLoading: authViewModel.isLoading,
                   onPressed: () async {
                     final success = await authViewModel.signInWithGoogle();

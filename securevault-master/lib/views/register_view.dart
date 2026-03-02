@@ -137,7 +137,7 @@ class _RegisterViewState extends State<RegisterView> {
                           padding: const EdgeInsets.all(12),
                           margin: const EdgeInsets.only(bottom: 16),
                           decoration: BoxDecoration(
-                            color: AppConstants.errorColor.withOpacity(0.1),
+                            color: AppConstants.errorColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: AppConstants.errorColor,
@@ -169,7 +169,7 @@ class _RegisterViewState extends State<RegisterView> {
                         label: AppConstants.labelSignUp,
                         isLoading: authViewModel.isLoading,
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState?.validate() ?? false) {
                             final success = await authViewModel.register(
                               fullName: _fullNameController.text.trim(),
                               email: _emailController.text.trim(),

@@ -1,0 +1,10 @@
+<resources>
+    <!-- App name -->
+    <string name="app_name">securevault</string>
+
+    <!-- Facebook Login configuration -->
+    <!-- TODO: Replace these placeholders with real values from Facebook Developer Console -->
+    <string name="facebook_app_id">YOUR_FACEBOOK_APP_ID</string>
+    <string name="facebook_client_token">YOUR_FACEBOOK_CLIENT_TOKEN</string>
+</resources>
+

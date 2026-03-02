@@ -21,7 +21,7 @@ class AppConstants {
   // Firebase Configuration
   // NOTE: Replace with your Firebase project credentials
   static const String firebaseWebApiKey = 'YOUR_WEB_API_KEY';
-  static const String googleSignInClientId = '448484157816-evh8s0vsh2go9km30i3f0k87o09nhbh5.apps.googleusercontent.com';
+  static const String googleSignInClientId = '622588675031-ldu5hcrqppf7qickk2qfja0c21semq9t.apps.googleusercontent.com';
 
   // Route Names
   static const String routeLogin = '/login';

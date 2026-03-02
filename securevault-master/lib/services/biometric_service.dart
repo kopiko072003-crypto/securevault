@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:local_auth/local_auth.dart';
 import '../utils/constants.dart';
 
@@ -20,7 +21,7 @@ class BiometricService {
       final isDeviceSupported = await _auth.canCheckBiometrics;
       return isDeviceSupported;
     } catch (e) {
-      print('Error checking biometric availability: $e');
+      debugPrint('Error checking biometric availability: $e');
       return false;
     }
   }
@@ -30,7 +31,7 @@ class BiometricService {
     try {
       return await _auth.getAvailableBiometrics();
     } catch (e) {
-      print('Error getting available biometrics: $e');
+      debugPrint('Error getting available biometrics: $e');
       return [];
     }
   }
@@ -41,7 +42,7 @@ class BiometricService {
       final availableBiometrics = await getAvailableBiometrics();
       return availableBiometrics.contains(BiometricType.fingerprint);
     } catch (e) {
-      print('Error checking fingerprint availability: $e');
+      debugPrint('Error checking fingerprint availability: $e');
       return false;
     }
   }
@@ -52,7 +53,7 @@ class BiometricService {
       final availableBiometrics = await getAvailableBiometrics();
       return availableBiometrics.contains(BiometricType.face);
     } catch (e) {
-      print('Error checking face recognition availability: $e');
+      debugPrint('Error checking face recognition availability: $e');
       return false;
     }
   }
@@ -75,7 +76,7 @@ class BiometricService {
 
       return isAuthenticated;
     } catch (e) {
-      print('Error during biometric authentication: $e');
+      debugPrint('Error during biometric authentication: $e');
       return false;
     }
   }
@@ -85,7 +86,7 @@ class BiometricService {
     try {
       await _auth.stopAuthentication();
     } catch (e) {
-      print('Error stopping biometric authentication: $e');
+      debugPrint('Error stopping biometric authentication: $e');
     }
   }
 
@@ -106,7 +107,7 @@ class BiometricService {
       }
       return 'Biometric';
     } catch (e) {
-      print('Error getting biometric type name: $e');
+      debugPrint('Error getting biometric type name: $e');
       return 'Biometric';
     }
   }
